@@ -33,6 +33,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexController);
 app.use('/users', usersController);
 app.use('/api/login', loginService);
+
+const passport = require('./passport');
+app.use(passport.initialize());
+app.use('/api/', passport.authenticate('jwt', {
+  session: false,
+  failWithError: true
+}));
 app.use('/api/users', usersService);
 
 // catch 404 and forward to error handler
